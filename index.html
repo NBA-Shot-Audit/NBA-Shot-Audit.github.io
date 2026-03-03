@@ -3,22 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBAShotAudit</title>
+    <title>NBAShotAudit — Automated NBA Highlight Videos</title>
+    <link rel="icon" type="image/png" href="/logo.png">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 640px; margin: 40px auto; padding: 0 20px; color: #222; line-height: 1.6; }
-        h1 { font-size: 1.8em; }
-        a { color: #1a73e8; }
-        .links { margin-top: 2em; }
-        .links a { display: block; margin: 0.5em 0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a030c;
+            color: #c8c0cc;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* ── Nav ── */
+        nav {
+            position: fixed; top: 0; width: 100%;
+            background: rgba(10, 3, 12, 0.92);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(175, 22, 105, 0.2);
+            z-index: 100; padding: 0 24px;
+        }
+        .nav-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 60px;
+        }
+        .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-brand img { width: 32px; height: 32px; border-radius: 50%; }
+        .nav-brand span { color: #fff; font-weight: 700; font-size: 1.05em; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a { color: #b8a0c0; text-decoration: none; font-size: 0.9em; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: #fff; }
+
+        /* ── Hero ── */
+        .hero {
+            text-align: center; padding: 140px 24px 80px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(175, 22, 105, 0.15) 0%, transparent 70%);
+        }
+        .hero-logo {
+            width: 100px; height: 100px; border-radius: 50%;
+            margin: 0 auto 28px;
+            box-shadow: 0 0 60px rgba(175, 22, 105, 0.35), 0 0 120px rgba(175, 22, 105, 0.15);
+        }
+        .hero h1 {
+            font-size: 2.8em; font-weight: 800; letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 0%, #d488b0 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 12px;
+        }
+        .hero p { color: #a898b0; font-size: 1.15em; max-width: 540px; margin: 0 auto 32px; }
+        .hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .hero-buttons a {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 0.95em;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .btn-primary { background: #af1669; color: #fff; }
+        .btn-primary:hover { background: #c91e78; transform: translateY(-1px); }
+        .btn-secondary { background: rgba(175, 22, 105, 0.12); color: #d488b0; border: 1px solid rgba(175, 22, 105, 0.25); }
+        .btn-secondary:hover { background: rgba(175, 22, 105, 0.22); color: #fff; }
+
+        /* ── Stats banner ── */
+        .stats {
+            display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+            padding: 40px 24px;
+            border-top: 1px solid rgba(175, 22, 105, 0.1);
+            border-bottom: 1px solid rgba(175, 22, 105, 0.1);
+        }
+        .stat { text-align: center; }
+        .stat-num { font-size: 1.8em; font-weight: 800; color: #d488b0; }
+        .stat-label { font-size: 0.85em; color: #8a7090; text-transform: uppercase; letter-spacing: 0.08em; }
+
+        /* ── Section ── */
+        section { max-width: 1100px; margin: 0 auto; padding: 80px 24px; }
+        .section-title {
+            font-size: 1.6em; color: #fff; font-weight: 700; margin-bottom: 8px;
+        }
+        .section-subtitle { color: #8a7090; margin-bottom: 40px; font-size: 1em; }
+
+        /* ── About cards ── */
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card {
+            background: rgba(30, 7, 25, 0.5);
+            border: 1px solid rgba(175, 22, 105, 0.12);
+            border-radius: 14px; padding: 28px;
+            transition: border-color 0.2s;
+        }
+        .card:hover { border-color: rgba(175, 22, 105, 0.35); }
+        .card-icon { font-size: 1.6em; margin-bottom: 12px; }
+        .card h3 { color: #fff; font-size: 1.05em; margin-bottom: 8px; }
+        .card p { color: #a898b0; font-size: 0.92em; }
+
+        /* ── How it works ── */
+        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; counter-reset: step; }
+        .step {
+            position: relative; padding: 24px; padding-top: 56px;
+            background: rgba(30, 7, 25, 0.3);
+            border-radius: 14px; border: 1px solid rgba(175, 22, 105, 0.08);
+        }
+        .step::before {
+            counter-increment: step; content: counter(step);
+            position: absolute; top: 20px; left: 24px;
+            width: 28px; height: 28px; border-radius: 50%;
+            background: rgba(175, 22, 105, 0.2); color: #d488b0;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.85em;
+        }
+        .step h4 { color: #fff; margin-bottom: 6px; }
+        .step p { color: #a898b0; font-size: 0.88em; }
+
+        /* ── Feeds ── */
+        .feeds { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .feed-box {
+            background: rgba(30, 7, 25, 0.4);
+            border: 1px solid rgba(175, 22, 105, 0.12);
+            border-radius: 14px; overflow: hidden;
+        }
+        .feed-header {
+            padding: 16px 20px; font-weight: 600; color: #fff; font-size: 0.95em;
+            border-bottom: 1px solid rgba(175, 22, 105, 0.1);
+        }
+        .feed-body { padding: 16px 20px; min-height: 400px; }
+        .feed-body iframe { border: none; width: 100%; }
+
+        /* ── Contact ── */
+        .contact {
+            text-align: center; padding: 60px 24px;
+            background: rgba(30, 7, 25, 0.3);
+            border-radius: 16px; margin-bottom: 40px;
+        }
+        .contact h2 { color: #fff; font-size: 1.4em; margin-bottom: 8px; }
+        .contact p { color: #a898b0; margin-bottom: 20px; }
+        .contact a.email-btn {
+            display: inline-block; padding: 12px 28px; background: #af1669;
+            color: #fff; text-decoration: none; border-radius: 10px; font-weight: 600;
+            transition: background 0.2s;
+        }
+        .contact a.email-btn:hover { background: #c91e78; }
+
+        /* ── Footer ── */
+        footer {
+            border-top: 1px solid rgba(175, 22, 105, 0.1);
+            padding: 32px 24px; text-align: center;
+        }
+        .footer-inner { max-width: 1100px; margin: 0 auto; }
+        .footer-links { display: flex; gap: 24px; justify-content: center; margin-bottom: 12px; flex-wrap: wrap; }
+        .footer-links a { color: #8a7090; text-decoration: none; font-size: 0.88em; }
+        .footer-links a:hover { color: #d488b0; }
+        .footer-copy { color: #5a4860; font-size: 0.82em; }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2em; }
+            .stats { gap: 24px; }
+            .feeds { grid-template-columns: 1fr; }
+            .nav-links { gap: 16px; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.6em; }
+            .nav-links a { font-size: 0.8em; }
+        }
     </style>
 </head>
 <body>
-    <h1>NBAShotAudit</h1>
-    <p>Automated NBA player highlight videos posted nightly to social media.</p>
-    <div class="links">
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms of Service</a>
+
+<!-- Nav -->
+<nav>
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">
+            <img src="/logo.png" alt="NBAShotAudit">
+            <span>NBAShotAudit</span>
+        </a>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#how">How It Works</a>
+            <a href="#feed">Feed</a>
+            <a href="#contact">Contact</a>
+        </div>
     </div>
-    <p>Contact: <a href="mailto:nbashotaudit@gmail.com">nbashotaudit@gmail.com</a></p>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+    <img src="/logo.png" alt="NBAShotAudit" class="hero-logo">
+    <h1>NBAShotAudit</h1>
+    <p>Automated NBA player highlight videos — generated and published nightly to X, YouTube, and TikTok.</p>
+    <div class="hero-buttons">
+        <a href="https://x.com/NBAShotAudit" class="btn-primary" target="_blank">Follow on X</a>
+        <a href="https://www.youtube.com/@NBAShotAudit" class="btn-secondary" target="_blank">YouTube</a>
+        <a href="https://www.tiktok.com/@nbashotaudit" class="btn-secondary" target="_blank">TikTok</a>
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="stats">
+    <div class="stat"><div class="stat-num">60+</div><div class="stat-label">Players Tracked</div></div>
+    <div class="stat"><div class="stat-num">82</div><div class="stat-label">Game Season</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Platforms</div></div>
+    <div class="stat"><div class="stat-num">Nightly</div><div class="stat-label">Publishing</div></div>
+</div>
+
+<!-- About -->
+<section id="about">
+    <h2 class="section-title">About</h2>
+    <p class="section-subtitle">What NBAShotAudit is and why it exists.</p>
+    <div class="cards">
+        <div class="card">
+            <div class="card-icon">&#127936;</div>
+            <h3>What We Do</h3>
+            <p>Every night during the NBA season, we automatically generate highlight reels for the league's top performers — capturing every shot attempt and compiling them into player-specific videos.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">&#128270;</div>
+            <h3>Why It Exists</h3>
+            <p>Traditional highlight reels cherry-pick the best moments. NBAShotAudit shows every shot — makes and misses — giving fans an unfiltered look at how players actually performed.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">&#9881;&#65039;</div>
+            <h3>The Technology</h3>
+            <p>Our pipeline automatically discovers games, identifies standout performances, captures video from official NBA sources, edits compilations, and publishes across multiple platforms — all without manual intervention.</p>
+        </div>
+    </div>
+</section>
+
+<!-- How it works -->
+<section id="how">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-subtitle">From final buzzer to your feed — fully automated.</p>
+    <div class="steps">
+        <div class="step">
+            <h4>Game Discovery</h4>
+            <p>After games end, we scan the NBA schedule and identify completed matchups with finalized box scores.</p>
+        </div>
+        <div class="step">
+            <h4>Player Selection</h4>
+            <p>Star players are always tracked. Other players are auto-included when they hit standout scoring thresholds (30+ points).</p>
+        </div>
+        <div class="step">
+            <h4>Video Capture</h4>
+            <p>Every field goal attempt for each selected player is captured from official NBA highlight sources and compiled into a single video.</p>
+        </div>
+        <div class="step">
+            <h4>Publish</h4>
+            <p>Videos are posted to X, YouTube, and TikTok with game stats and context — ready for fans to watch by morning.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Feed -->
+<section id="feed">
+    <h2 class="section-title">Live Feed</h2>
+    <p class="section-subtitle">See our latest posts across platforms.</p>
+    <div class="feeds">
+        <div class="feed-box">
+            <div class="feed-header">X (Twitter)</div>
+            <div class="feed-body">
+                <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders transparent" href="https://twitter.com/NBAShotAudit">Tweets by NBAShotAudit</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+        </div>
+        <div class="feed-box">
+            <div class="feed-header">YouTube</div>
+            <div class="feed-body">
+                <iframe src="https://www.youtube.com/embed?listType=user_uploads&list=NBAShotAudit" width="100%" height="400" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+    <div class="contact">
+        <h2>Get in Touch</h2>
+        <p>Questions, feedback, or partnership inquiries — we'd love to hear from you.</p>
+        <a href="mailto:nbashotaudit@gmail.com" class="email-btn">nbashotaudit@gmail.com</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-links">
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+            <a href="https://x.com/NBAShotAudit" target="_blank">X</a>
+            <a href="https://www.youtube.com/@NBAShotAudit" target="_blank">YouTube</a>
+            <a href="https://www.tiktok.com/@nbashotaudit" target="_blank">TikTok</a>
+        </div>
+        <p class="footer-copy">&copy; 2026 NBAShotAudit. Not affiliated with or endorsed by the NBA.</p>
+    </div>
+</footer>
+
 </body>
 </html>

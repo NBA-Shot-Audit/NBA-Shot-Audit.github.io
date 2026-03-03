@@ -4,46 +4,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy — NBAShotAudit</title>
+    <link rel="icon" type="image/png" href="/logo.png">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 640px; margin: 40px auto; padding: 0 20px; color: #222; line-height: 1.6; }
-        h1 { font-size: 1.6em; }
-        h2 { font-size: 1.2em; margin-top: 1.5em; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a030c;
+            color: #c8c0cc;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        nav {
+            position: fixed; top: 0; width: 100%;
+            background: rgba(10, 3, 12, 0.92);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(175, 22, 105, 0.2);
+            z-index: 100; padding: 0 24px;
+        }
+        .nav-inner {
+            max-width: 760px; margin: 0 auto;
+            display: flex; align-items: center; height: 60px; gap: 10px;
+        }
+        .nav-inner a { color: #b8a0c0; text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .nav-inner img { width: 28px; height: 28px; border-radius: 50%; }
+        .nav-inner a:hover { color: #fff; }
+        .content { max-width: 760px; margin: 0 auto; padding: 100px 24px 60px; }
+        h1 { font-size: 1.8em; color: #fff; margin-bottom: 4px; }
+        .date { color: #8a7090; margin-bottom: 32px; font-size: 0.9em; }
+        h2 { font-size: 1.15em; color: #d488b0; margin-top: 32px; margin-bottom: 8px; }
+        p, li { color: #a898b0; }
+        ul { padding-left: 24px; margin: 8px 0; }
+        li { margin-bottom: 4px; }
+        a { color: #d488b0; }
+        a:hover { color: #fff; }
+        .back { display: inline-block; margin-top: 40px; padding: 10px 20px; background: rgba(175,22,105,0.12); border-radius: 8px; color: #d488b0; text-decoration: none; font-weight: 600; }
+        .back:hover { background: rgba(175,22,105,0.25); }
     </style>
 </head>
 <body>
-    <h1>Privacy Policy</h1>
-    <p><strong>Last updated:</strong> February 26, 2026</p>
+    <nav>
+        <div class="nav-inner">
+            <a href="/">
+                <img src="/logo.png" alt="NBAShotAudit">
+                NBAShotAudit
+            </a>
+        </div>
+    </nav>
+    <div class="content">
+        <h1>Privacy Policy</h1>
+        <p class="date">Last updated: February 26, 2026</p>
 
-    <h2>What We Do</h2>
-    <p>NBAShotAudit is an automated service that generates and publishes NBA player highlight videos to social media platforms including X (Twitter) and TikTok.</p>
+        <h2>What We Do</h2>
+        <p>NBAShotAudit is an automated service that generates and publishes NBA player highlight videos to social media platforms including X (Twitter), YouTube, and TikTok.</p>
 
-    <h2>Information We Collect</h2>
-    <p>NBAShotAudit does not collect, store, or process any personal information from users. We do not have user accounts, logins, or any form of user registration.</p>
-    <p>The only data we access is publicly available NBA game data (box scores, play-by-play, and highlight videos) provided through official NBA and related sports data sources.</p>
+        <h2>Information We Collect</h2>
+        <p>NBAShotAudit does not collect, store, or process any personal information from users. We do not have user accounts, logins, or any form of user registration.</p>
+        <p>The only data we access is publicly available NBA game data (box scores, play-by-play, and highlight videos) provided through official NBA and related sports data sources.</p>
 
-    <h2>TikTok API Data</h2>
-    <p>We use the TikTok API solely to publish video content to our own TikTok account. We do not access, collect, or store any TikTok user data. We do not use TikTok data for any purpose other than publishing our own content.</p>
+        <h2>TikTok API Data</h2>
+        <p>We use the TikTok API solely to publish video content to our own TikTok account. We do not access, collect, or store any TikTok user data. We do not use TikTok data for any purpose other than publishing our own content.</p>
 
-    <h2>Third-Party Services</h2>
-    <p>We interact with the following third-party APIs solely for content publication:</p>
-    <ul>
-        <li>TikTok Content Posting API — to publish highlight videos</li>
-        <li>X (Twitter) API — to publish highlight videos and tweets</li>
-        <li>NBA.com — to access publicly available game data</li>
-    </ul>
+        <h2>Third-Party Services</h2>
+        <p>We interact with the following third-party APIs solely for content publication:</p>
+        <ul>
+            <li>TikTok Content Posting API — to publish highlight videos</li>
+            <li>X (Twitter) API — to publish highlight videos and tweets</li>
+            <li>YouTube Data API — to publish highlight videos</li>
+            <li>NBA.com — to access publicly available game data</li>
+        </ul>
 
-    <h2>Data Sharing</h2>
-    <p>We do not sell, trade, or share any data with third parties.</p>
+        <h2>Data Sharing</h2>
+        <p>We do not sell, trade, or share any data with third parties.</p>
 
-    <h2>Children's Privacy</h2>
-    <p>Our service does not collect information from anyone, including children under the age of 13.</p>
+        <h2>Children's Privacy</h2>
+        <p>Our service does not collect information from anyone, including children under the age of 13.</p>
 
-    <h2>Changes to This Policy</h2>
-    <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated revision date.</p>
+        <h2>Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated revision date.</p>
 
-    <h2>Contact</h2>
-    <p>If you have questions about this Privacy Policy, contact us at <a href="mailto:nbashotaudit@gmail.com">nbashotaudit@gmail.com</a>.</p>
+        <h2>Contact</h2>
+        <p>If you have questions about this Privacy Policy, contact us at <a href="mailto:nbashotaudit@gmail.com">nbashotaudit@gmail.com</a>.</p>
 
-    <p><a href="/">Back to home</a></p>
+        <a href="/" class="back">&larr; Back to home</a>
+    </div>
 </body>
 </html>
